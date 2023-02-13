@@ -13,7 +13,7 @@ novel_sessions=[1:3,9:11];
 bin_size=4;
 num_bins=20;
 
-data_pathway='D:\dev\cell_assemblies\Data\';
+data_pathway='E:\downloads\cell_assemblies-main\Data\';
 CA1_group={'C5M1','C6M3','C6M4','C8M2'};
 CA3_group={'C14M4','C15M2','C23M4','C24M3','C24M4'};
 
@@ -375,6 +375,7 @@ plot(x_vec,n1,'-b','linewidth',2);
 hold on
 plot(x_vec,n2,'-r','linewidth',2);
 xlim([0 4])
+ylim([0 0.2])
 xlabel('Spatial information (bit/spike)')
 ylabel('Fraction of cells')
 legend('CA1','CA3')
@@ -1167,6 +1168,7 @@ axis square
 box off
 title('Figure 4G - inset')
 
+
 % Figure 4H-I - Comparing within-direction against across-directions
 % distribution of pairwise correlations between place cells with the
 % different preferred positions:
@@ -1916,7 +1918,7 @@ scatter(x_vec_1,bin_size*average_max_field_size_novel(mouse_group==1),25,'k','fi
 hold on
 scatter(x_vec_2,bin_size*average_max_field_size_novel(mouse_group==2),25,'k','filled');
 xlim([0.5 2.5])
-ylim([0 20])
+ylim([0 15])
 set(gca,'ytick',0:5:20)
 ylabel('Place field size (cm)')
 set(gca,'fontsize',16)
@@ -2235,7 +2237,7 @@ for n=1:number_of_mice
     rate_dynamics_subsampled(n,:)=across_mice_data{n}.rate_dynamics_subsampled(1:maximal_number_of_sessions);
 end
 average_number_of_neurons=mean(number_of_neurons_dynamics(:,:)');
-fraction_of_neurons=average_number_of_neurons./number_of_registered_neurons;
+fraction_of_neurons=(average_number_of_neurons./number_of_registered_neurons)*100;
 overall_registration_errors_CA1=overall_registration_errors(mouse_group==1);
 overall_registration_errors_CA3=overall_registration_errors(mouse_group==2);
 
@@ -2294,8 +2296,8 @@ scatter(x_vec_1,fraction_of_neurons(mouse_group==1),25,'k','filled');
 hold on
 scatter(x_vec_2,fraction_of_neurons(mouse_group==2),25,'k','filled');
 xlim([0.5 2.5])
-ylim([0 0.8])
-set(gca,'ytick',0:0.2:1)
+ylim([0 80])
+set(gca,'ytick',0:20:80)
 ylabel('% active cells')
 box off
 hold on
@@ -2337,11 +2339,11 @@ title('Figure S3F')
 % Figure S3G-I - Recapitulating the results for a fixed number of registered cells:
 % Figure S3G - Percentage of active cells over days from all registered cells:
 figure
-errorbar(days_vec(1:maximal_number_of_sessions/2),100*mean_fraction_of_neurons_dynamics_CA1(1:maximal_number_of_sessions/2),100*std_fraction_of_neurons_dynamics_CA1(1:maximal_number_of_sessions/2)./sqrt(sum(mouse_group==1)),'--*b','linewidth',2)
+errorbar(days_vec(1:maximal_number_of_sessions/2),100*mean_fraction_of_neurons_dynamics_CA1(1:maximal_number_of_sessions/2),100*std_fraction_of_neurons_dynamics_CA1(1:maximal_number_of_sessions/2)./sqrt(sum(mouse_group==1)),'-*b','linewidth',2)
 hold on
-errorbar(days_vec(1:maximal_number_of_sessions/2),100*mean_fraction_of_neurons_dynamics_CA3(1:maximal_number_of_sessions/2),100*std_fraction_of_neurons_dynamics_CA3(1:maximal_number_of_sessions/2)./sqrt(sum(mouse_group==2)),'--*r','linewidth',2)
-errorbar(days_vec(maximal_number_of_sessions/2+1:end),100*mean_fraction_of_neurons_dynamics_CA1(maximal_number_of_sessions/2+1:end),100*std_fraction_of_neurons_dynamics_CA1(maximal_number_of_sessions/2+1:end)./sqrt(sum(mouse_group==1)),'--*b','linewidth',2)
-errorbar(days_vec(maximal_number_of_sessions/2+1:end),100*mean_fraction_of_neurons_dynamics_CA3(maximal_number_of_sessions/2+1:end),100*std_fraction_of_neurons_dynamics_CA3(maximal_number_of_sessions/2+1:end)./sqrt(sum(mouse_group==2)),'--*r','linewidth',2)
+errorbar(days_vec(1:maximal_number_of_sessions/2),100*mean_fraction_of_neurons_dynamics_CA3(1:maximal_number_of_sessions/2),100*std_fraction_of_neurons_dynamics_CA3(1:maximal_number_of_sessions/2)./sqrt(sum(mouse_group==2)),'-*r','linewidth',2)
+errorbar(days_vec(maximal_number_of_sessions/2+1:end),100*mean_fraction_of_neurons_dynamics_CA1(maximal_number_of_sessions/2+1:end),100*std_fraction_of_neurons_dynamics_CA1(maximal_number_of_sessions/2+1:end)./sqrt(sum(mouse_group==1)),'-*b','linewidth',2)
+errorbar(days_vec(maximal_number_of_sessions/2+1:end),100*mean_fraction_of_neurons_dynamics_CA3(maximal_number_of_sessions/2+1:end),100*std_fraction_of_neurons_dynamics_CA3(maximal_number_of_sessions/2+1:end)./sqrt(sum(mouse_group==2)),'-*r','linewidth',2)
 plot([17 17],[0 100],'--','color','k','linewidth',2)
 xlim([1 33])
 ylim([0 80])
@@ -2648,18 +2650,21 @@ box off
 axis square
 set(gca,'fontsize',16)
 title('Figure S4A')
+legend({'CA1','CA3'},'Location','Northwest')
+legend('boxoff')
 
 % Figure S4B - Average spatial information compared between the two running directions:
+lgd = [];
 figure
 plot([0 2],[0 2],'--k','linewidth',2)
 hold on
 for n=1:number_of_mice
     if mouse_group(n)==1
-        plot(mean(mean_SI_SSR_single_cells_separated_novel(n,1,:),'omitnan'),mean(mean_SI_SSR_single_cells_separated_novel(n,2,:),'omitnan'),'.','markersize',20,'color','b')
+       lgd(1) =  plot(mean(mean_SI_SSR_single_cells_separated_novel(n,1,:),'omitnan'),mean(mean_SI_SSR_single_cells_separated_novel(n,2,:),'omitnan'),'.','markersize',20,'color','b');
         errorbar(mean(mean_SI_SSR_single_cells_separated_novel(n,1,:),'omitnan'),mean(mean_SI_SSR_single_cells_separated_novel(n,2,:),'omitnan'),std(mean_SI_SSR_single_cells_separated_novel(n,2,:),'omitnan'),'color','b')
         errorbar(mean(mean_SI_SSR_single_cells_separated_novel(n,1,:),'omitnan'),mean(mean_SI_SSR_single_cells_separated_novel(n,2,:),'omitnan'),std(mean_SI_SSR_single_cells_separated_novel(n,2,:),'omitnan'),'horizontal','color','b')
     elseif mouse_group(n)==2
-        plot(mean(mean_SI_SSR_single_cells_separated_novel(n,1,:),'omitnan'),mean(mean_SI_SSR_single_cells_separated_novel(n,2,:),'omitnan'),'.','markersize',20,'color','r')
+        lgd(2) =  plot(mean(mean_SI_SSR_single_cells_separated_novel(n,1,:),'omitnan'),mean(mean_SI_SSR_single_cells_separated_novel(n,2,:),'omitnan'),'.','markersize',20,'color','r');
         errorbar(mean(mean_SI_SSR_single_cells_separated_novel(n,1,:),'omitnan'),mean(mean_SI_SSR_single_cells_separated_novel(n,2,:),'omitnan'),std(mean_SI_SSR_single_cells_separated_novel(n,2,:),'omitnan'),'color','r')
         errorbar(mean(mean_SI_SSR_single_cells_separated_novel(n,1,:),'omitnan'),mean(mean_SI_SSR_single_cells_separated_novel(n,2,:),'omitnan'),std(mean_SI_SSR_single_cells_separated_novel(n,2,:),'omitnan'),'horizontal','color','r')
     end
@@ -2669,7 +2674,7 @@ ylabel('Spatial information - left (bit/spike)')
 xlim([0 2])
 ylim([0 2])
 set(gca,'fontsize',16)
-legend('CA1','CA3','Location','Northwest')
+legend(lgd,'CA1','CA3','Location','Northwest')
 legend boxoff
 axis square
 box off
@@ -2681,11 +2686,11 @@ plot([0 2],[0 2],'--k','linewidth',2)
 hold on
 for n=1:number_of_mice
     if mouse_group(n)==1
-        plot(mean(mean_pairwise_corr_single_cells_separated_novel(n,1,:),'omitnan'),mean(mean_pairwise_corr_single_cells_separated_novel(n,2,:),'omitnan'),'.','markersize',20,'color','b')
+        lgd(1) = plot(mean(mean_pairwise_corr_single_cells_separated_novel(n,1,:),'omitnan'),mean(mean_pairwise_corr_single_cells_separated_novel(n,2,:),'omitnan'),'.','markersize',20,'color','b');
         errorbar(mean(mean_pairwise_corr_single_cells_separated_novel(n,1,:),'omitnan'),mean(mean_pairwise_corr_single_cells_separated_novel(n,2,:),'omitnan'),std(mean_pairwise_corr_single_cells_separated_novel(n,2,:),'omitnan'),'color','b')
         errorbar(mean(mean_pairwise_corr_single_cells_separated_novel(n,1,:),'omitnan'),mean(mean_pairwise_corr_single_cells_separated_novel(n,2,:),'omitnan'),std(mean_pairwise_corr_single_cells_separated_novel(n,2,:),'omitnan'),'horizontal','color','b')
     elseif mouse_group(n)==2
-        plot(mean(mean_pairwise_corr_single_cells_separated_novel(n,1,:),'omitnan'),mean(mean_pairwise_corr_single_cells_separated_novel(n,2,:),'omitnan'),'.','markersize',20,'color','r')
+        lgd(2) = plot(mean(mean_pairwise_corr_single_cells_separated_novel(n,1,:),'omitnan'),mean(mean_pairwise_corr_single_cells_separated_novel(n,2,:),'omitnan'),'.','markersize',20,'color','r');
         errorbar(mean(mean_pairwise_corr_single_cells_separated_novel(n,1,:),'omitnan'),mean(mean_pairwise_corr_single_cells_separated_novel(n,2,:),'omitnan'),std(mean_pairwise_corr_single_cells_separated_novel(n,2,:),'omitnan'),'color','r')
         errorbar(mean(mean_pairwise_corr_single_cells_separated_novel(n,1,:),'omitnan'),mean(mean_pairwise_corr_single_cells_separated_novel(n,2,:),'omitnan'),std(mean_pairwise_corr_single_cells_separated_novel(n,2,:),'omitnan'),'horizontal','color','r')
     end
@@ -2697,6 +2702,8 @@ ylim([0.5 1])
 set(gca,'fontsize',16)
 axis square
 box off
+legend(lgd,'CA1','CA3','Location','Northwest')
+legend boxoff
 title('Figure S4C')
 
 % Figure S4D - Comparing to a null distribution obtained from different mice:
