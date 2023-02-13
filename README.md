@@ -1,5 +1,4 @@
 # Organization of hippocampal CA3 into correlated cell assemblies supports a stable spatial code
-<<<<<<< HEAD
 This repository includes the data and scripts required for producing the main figures presented in Sheintuch et al., 2023. 
 
 ## Usage and documentation
@@ -10,10 +9,11 @@ To produce the figures use the *cell_assemblies.m* script.
 Before running the script, change the *data_pathway* to the *Data* directory on your computer.
 
 ## References
+
 Sheintuch, L., Geva, N., Deitch, D., Rubin, A., Ziv, Y. (2023). Organization of hippocampal CA3 into correlated cell assemblies supports a stable spatial code. *Cell Reports* 
+
 =======
 
 This the first version of the repository that includes analyses and the required data to replicate the results presented in Sheintuch, et al., 2023. Please make sure to use the latest version of this repository.
 
 Repository DOI: [![DOI](https://zenodo.org/badge/578592893.svg)](https://zenodo.org/badge/latestdoi/578592893)
->>>>>>> f6c9bb781e6928e2a0f779983ab90f1354f55a02
